@@ -46,3 +46,4 @@ Custom generators
 
 * [Demo Data as Code by Thomas A. Limoncelli](https://dlnext.acm.org/doi/abs/10.1145/3344777.3355565)
 
+* [This page on GitLab](https://themarlogroup.gitlab.io/articles/quickcheck)

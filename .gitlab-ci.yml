@@ -1,4 +1,4 @@
-image: conoria/alpine-pandoc
+# https://docs.gitlab.com/ce/ci/yaml
 
 cache:
   key: ${CI_COMMIT_REF_NAME}-cache
@@ -6,12 +6,12 @@ cache:
     - README.html
     - public
 
-before_script:
-  - apk update
-  - apk add make
-
 render:
+  image: conoria/alpine-pandoc
   stage: build
+  before_script:
+    - apk update
+    - apk add make
   script:
     - make
   artifacts:
@@ -19,6 +19,8 @@ render:
       - README.html
 
 pages:
+  image: alpine:3.1
+  stage: deploy
   script:
     - mkdir -p public
     - cp -p README.html public/index.html

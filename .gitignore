@@ -4,6 +4,7 @@ doc/
 figure/
 *.lyx
 notebook.nb.html
+public/
 .RData
 *.rds
 .Rhistory
