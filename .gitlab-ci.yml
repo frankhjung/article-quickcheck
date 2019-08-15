@@ -1,0 +1,27 @@
+image: conoria/alpine-pandoc
+
+cache:
+  key: ${CI_COMMIT_REF_NAME}-cache
+  paths:
+    - README.html
+    - public
+
+before_script:
+  - apk update
+  - apk add make
+
+render:
+  stage: build
+  script:
+    - make
+  artifacts:
+    paths:
+      - README.html
+
+pages:
+  script:
+    - mkdir -p public
+    - cp -p README.html public/index.html
+  artifacts:
+    paths:
+      - public

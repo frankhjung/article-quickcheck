@@ -1,0 +1,12 @@
+cache/
+doc/
+*.docx
+figure/
+*.lyx
+notebook.nb.html
+.RData
+*.rds
+.Rhistory
+.Rproj.user
+*.tex
+*.zip
