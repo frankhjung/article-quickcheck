@@ -1,29 +1,12 @@
 # https://docs.gitlab.com/ce/ci/yaml
-
-cache:
-  key: ${CI_COMMIT_REF_NAME}-cache
-  paths:
-    - README.html
-    - public
-
-render:
-  image: conoria/alpine-pandoc
-  stage: build
-  before_script:
-    - apk update
-    - apk add make
-  script:
-    - make
-  artifacts:
-    paths:
-      - README.html
+# https://pandoc.org
+# https://www.gnu.org/software/make/
 
 pages:
-  image: alpine:3.1
+  image: frankhjung/pandoc:latest
   stage: deploy
   script:
-    - mkdir -p public
-    - cp -p README.html public/index.html
+    - make
   artifacts:
     paths:
       - public
