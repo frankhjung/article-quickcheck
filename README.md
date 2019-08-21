@@ -1,49 +1,40 @@
----
-title: 'QuickCheck'
-author: '[frank.jung@marlo.com.au](mailto:frank.jung@marlo.com.au)'
-date: '15 August 2019'
-output:
-  html_document: default
----
+# Thoughts on Random Number Generators
+
+This is part 2 in the series on Random numbers. The series contains:
+
+1. [Random Number Generators in bash scripts](https://gitlab.com/theMarloGroup/articles/random)
+2. [Random Number Generators to test code](https://gitlab.com/theMarloGroup/articles/quickcheck)
+3. [Random Number Generators in simulation](https://gitlab.com/theMarloGroup/articles/simulation)
 
 
-# Introduction
+## Render to HTML
 
-Why randomness in testing?
+To render a HTML or PDF version of this article, run
 
-Does not replace existing tests - just augments them.
+```bash
+make quickcheck.html
+make quickcheck.pdf
+```
 
-Can also be used to generate sample data without privacy risks.
+This will generate documents into the `public` directory.
 
+## GitHub
 
-# Features
+The rendered version is also available online at:
 
-Standard inputs
+* [GitHub](https://frankhjung.github.io/article-quickcheck/)
 
-Custom generators
+See pipeline configuration:
 
-Where QuickCheck (Haskell) goes further:
+* [.github/workflows/main.yml](.github/workflows/main.yml)
 
-	* Validation of rules / laws
+## GitLab
 
+The rendered version is also available online at:
 
-# Summary
+* [GitLab](https://themarlogroup.gitlab.io/articles/quickcheck/)
 
-Many tools available
+See pipeline configuration:
 
-Augments existing tests
+* [.gitlab-ci.yml](.gitlab-ci.yml)
 
-Provides tools to generate sample data for product promotion
-
-Custom generators
-
-
-# References
-
-* [QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs by Claessen, Koen & Hughes, John first released 1999. (PDF)](http://www.eecs.northwestern.edu/~robby/courses/395-495-2009-fall/quick.pdf)
-
-* [QuickCheck (Wikipedia)](https://en.wikipedia.org/wiki/QuickCheck)
-
-* [Demo Data as Code by Thomas A. Limoncelli](https://dlnext.acm.org/doi/abs/10.1145/3344777.3355565)
-
-* [This page on GitLab](https://themarlogroup.gitlab.io/articles/quickcheck)

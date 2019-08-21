@@ -1,0 +1,38 @@
+name: render and publish article
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+    paths:
+      - quickcheck.md
+
+jobs:
+
+  build:
+
+    name: render markdown to html
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: shallow checkout
+        uses: actions/checkout@v1.0.0
+        with:
+          ref: refs/heads/master
+          fetch-depth: 1
+
+      - name: render document
+        uses: docker://frankhjung/pandoc:latest
+        with:
+          entrypoint: /usr/bin/make
+
+      - name: publish to pages
+        uses: crazy-max/ghaction-github-pages@v0.4.0
+        if: success()
+        with:
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+

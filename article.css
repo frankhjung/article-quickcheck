@@ -3,6 +3,9 @@
  */
 
 html {
+	width: 21cm;
+	height: 29.7cm;
+	margin: auto;
   font-size: 100%;
   overflow-y: scroll;
   -webkit-text-size-adjust: 100%;
@@ -10,12 +13,14 @@ html {
 }
 
 body {
+	width: 21cm;
+	height: 29.7cm;
+  margin: auto;
   color: #444;
   font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
   font-size: 12px;
   line-height: 1.7;
   padding: 1em;
-  margin: auto;
   max-width: 65em;
   background: #fefefe;
 }
@@ -320,13 +325,24 @@ table td {
     max-width: 100% !important;
   }
 
+	@page {
+		size: 21cm 29.7cm;
+		width: 21cm;
+		height: 29.7cm;
+		margin: 0cm;
+	}
+
+	/*
+	 
   @page :left {
     margin: 15mm 20mm 15mm 10mm;
-}
+  }
 
   @page :right {
     margin: 15mm 10mm 15mm 20mm;
-}
+  }
+
+	*/
 
   p, h2, h3 {
     orphans: 3;
