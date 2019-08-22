@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-default:	README.html
+default:	quickcheck.html
 
 .SUFFIXES:
 .SUFFIXES:	.md .html .pdf
@@ -8,6 +8,7 @@ default:	README.html
 .md.html:
 	@mkdir -p public
 	@pandoc --css article.css --to html4 --output public/$@ --self-contained --standalone --section-divs $<
+	@cp -p public/$@ public/index.html
 
 .md.pdf:
 	@mkdir -p public

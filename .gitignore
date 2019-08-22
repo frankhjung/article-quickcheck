@@ -7,6 +7,7 @@ notebook.nb.html
 public/
 .RData
 *.rds
+references
 .Rhistory
 .Rproj.user
 *.tex
