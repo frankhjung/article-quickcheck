@@ -5,15 +5,15 @@ cache/
 doc/
 *.docx
 figure/
+*.html
 .hypothesis/
 .idea
 .idea/
 *.iml
 *.lyx
-notebook.nb.html
 public/
 *.pyc
-__pycache__
+__pycache__/
 *.pyo
 .Python
 .RData

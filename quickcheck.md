@@ -1,5 +1,5 @@
 ---
-title: 'Using Random Generators to Test Code'
+title: 'Using Randomness to Test Code'
 author: '[frank.jung@marlo.com.au](mailto:frank.jung@marlo.com.au)'
 header-includes:
   - \usepackage{fancyhdr}
@@ -39,8 +39,8 @@ The article is organised as follows: First we will [review](#history) where
 these ideas came from, then do a short [introduction to property based
 testing](#introducing-property-based-testing). This will introduce
 [Generators](#generators). Next, we will briefly discuss
-[Shrinkage](#shrinkage), before [finishing](#summary) with some final
-observations.
+[Shrinkage](#shrinkage), and reproducing tests before [finishing](#summary) with
+some final observations.
 
 
 ## History
@@ -52,7 +52,7 @@ Kent Beck provided a unit testing framework for
 [Smalltalk](https://en.wikipedia.org/wiki/Smalltalk) in 1989. Initially, tests
 had to be hand crafted. It did describes a philosophy of writing and running
 tests embodied by a [literate
-program](https://en.wikipedia.org/wiki/Literate_programming) test framework. 
+program](https://en.wikipedia.org/wiki/Literate_programming) test framework.
 
 In 1994, Richard Hamlet wrote about Random Testing. Not the "random" as in the
 slang definition, meaning haphazard. Instead, Hamlet suggested that computers
@@ -65,7 +65,7 @@ A few years later, in 1999, the influential paper by
 [Hughes](https://en.wikipedia.org/wiki/John_Hughes_(computer_scientist)) called,
 [QuickCheck: A Lightweight Tool for Random Testing of Haskell
 Programs](https://www.researchgate.net/publication/2449938_QuickCheck_A_Lightweight_Tool_for_Random_Testing_of_Haskell_Programs),
-provided a whole new toolkit to run tests with randomised values. Their paper
+provided a whole new tool kit to run tests with randomised values. Their paper
 was written for the functional programming language,
 [Haskell](https://www.haskell.org/), but it quickly inspired a suite of property
 based testing tools in many other languages. A useful list of current
@@ -75,22 +75,32 @@ implementations appears on the
 
 ## Introducing Property Based Testing
 
-When testing a function or method, the idea is that any valid input should yield
-a valid response. Likewise, any input outside this range should return an
-appropriate failure. Compare this to how systematic tests are normally written:
-Given a *specific* input, check the programs return value. And that highlights
-the problem: you need to be sure you have chosen correct and *sufficient* input
-values to test your code. The tools we use to check test coverage do not check
-the *adequacy* of your tests. Just that you have a test for a control flow path.
-So, the quality of a test is dependent upon the quality of the inputs. Property
-based testing provides tools to test over randomly selected values over the
-entire input range. This changes the focus of a test. When we create a
-traditional unit test, we are making an assumption on an input. These
-assumptions could lead to failures. Testing the properties of an input over a
-large range of values can help to uncover these bugs. We have experienced this
-first hand. It is a true "aha" moment!
+With property based testing the idea is that for a function or method, any valid
+input should yield a valid response. Likewise, any input outside this range
+should return an appropriate failure. Compare this to how systematic tests are
+normally written: Given a *specific* input, check the programs return value. And
+that highlights the problem: you need to be sure you have chosen correct and
+*sufficient* input values to test your code. The tools we use to check test
+coverage do not check the *adequacy* of your tests. Just that you have a test
+for a control flow path. So the quality of a test is dependent upon the quality
+of the inputs. Property based testing provides tools to test over randomly
+values selected over the range of input. This changes the focus of our tests. We
+concentrate on the properties of functions under test. What the inputs are and
+what the outputs are expected to be. With systematic testing (unit tests) we are
+selecting only a few inputs. Assumptions made on these selections could lead
+to failures. Testing the properties of an input over a large range of values can
+help to find bugs otherwise ignored in specific unit tests. We have experienced
+this first hand. It is a true "aha" moment when the tests uncover a use case
+whose input we hadn't thought of!
 
-The test values are produced using *generators*.
+With Unit Testing we provide fixed inputs (e.g. 0,1,2,…) and get a fixed result
+(e.g. 1, 2, 4, …).
+
+With Property Based Testing we provide a declaration of inputs (e.g. All `int`s)
+and declaration of conditions that must be held (e.g. Result is an `int`).
+
+At the core of Property Based Testing is the production randomised input test
+values. These test values are produced using *generators*.
 
 
 ## Generators
@@ -107,9 +117,11 @@ can build your own!
 Apart from custom values, you may also want a custom distribution. Random
 testing is most effective when the values being tested closely match the
 distribution of the actual data. As the provided generators know nothing of your
-data, they typically will use a uniform distribution. If something else is
-required, you will need to provide your own generator. Luckily, these are not
-difficult to write.
+data, they typically will use a uniform distribution. If however, something else
+is required then you will need to provide your own generator. Luckily, these are
+not difficult to write. The test tools we have used (Haskell:QuickCheck,
+Java:QuickTheories and Python:Hypothesis) have rich libraries of generators but
+can also be easily extended.
 
 
 ## Shrinkage
@@ -119,25 +131,42 @@ large distribution of values, QuickCheck finds the minimal case that fails the
 test. In practice, what this does is concentrate tests to the extremes of an
 input value. However, this behaviour can be modified using a *Generator*.
 
+Shrinkage is an important feature to property based testing. Having an example
+of failure is good. Having a minimal example of failure is better. With a
+minimal example you are more likely to understand the reasons for the failure.
+
+
+## Test Reproduction
+
+Random testing is useful, but once a failure has been identified, then we would
+like to repeat these failed tests to ensure they have been fixed. Tools such as
+Python's Hypothesis record all failed tests so on future runs those tests are
+automatically included in any re-runs.
+
+Other tools such as Java's QuickTheories allow the repetition of tests by
+specifying a random seed. When a test fails, the random seed used to generate
+that test is reported, and can then be used to reproduce the tests.
 
 ## Summary
 
-In this article we looked at using random values for tests. Randomness is
-intrinsic to QuickCheck style test tools. Using generators you can not only
-shape the distribution of test values but also customise the value types.
-Recording the random seed enables you to repeat specific test runs.
+In this article we took a brief look at the features of using random values for
+tests. Randomness is intrinsic to Property Based Testing tools like QuickCheck.
+Using generators you can not only shape the distribution of test values but also
+customise the value types. Recording the random seed enables you to repeat
+specific test runs. And having a minimal failed test case helps diagnose
+problems.
 
-Generating a large number of tests may give a false sense of security when most
-of the test cases are trivial. So, choosing the correct inputs whether randomly
-generated or systematically selected is important.
+Generating a large number of tests may, however, give a false sense of security
+if most of these test cases are trivial. So, choosing the correct inputs,
+whether randomly generated or systematically selected is important.
 
-The QuickCheck family of test tools don't replace unit tests, rather they
-augment existing tests. By thinking on properties, test cases can become more
-general.
-
+QuickCheck style test tools don't replace unit tests, rather they augment
+existing test cases. By thinking on the properties of your code, then the test
+cases can become more general and cover a greater parameter range.
 
 ## Resources
 
+* [Beyond Unit Tests](https://www.hillelwayne.com/talks/beyond-unit-tests/)
 * [Lorem Ipsum](https://www.lipsum.com/)
 * [Property Testing](https://en.wikipedia.org/wiki/Property_testing)
 * [Python Hypothesis](https://hypothesis.readthedocs.io/en/latest/index.html)
