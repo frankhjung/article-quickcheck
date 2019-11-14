@@ -26,8 +26,7 @@ def test_alphanumeric(a_string):
     """
     assert a_string.isalnum()
     a_length = len(a_string)
-    assert a_length >= 12
-    assert a_length <= 64
+    assert a_length >= 12 and a_length <= 64
 
 
 @given(lists(emails(), min_size=1, max_size=10))

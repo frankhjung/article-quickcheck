@@ -16,27 +16,26 @@ make quickcheck.html
 make quickcheck.pdf
 ```
 
-This will generate documents into the `public` directory.
+This will generate documents into the `public` directory, which is used to
+publish rendered pages.
 
-## GitHub
 
-The rendered version is also available online at:
+## Rendered Articles
 
-* [GitHub](https://frankhjung.github.io/article-quickcheck/)
+Rendered versions of this article are available online at:
 
-See pipeline configuration:
+* [QuickCheck Article (GitHub)](https://frankhjung.github.io/article-quickcheck/) - includes Python code
+* [QuickCheck Java Example (GitHub)](https://github.com/frankhjung/java-quickcheck) - using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
+* [QuickCheck Article (GitLab)](https://themarlogroup.gitlab.io/articles/quickcheck/) - includes Python code
+* [QuickCheck Java Example (GitLab)](https://themarlogroup.gitlab.io/examples/quickcheck/) - using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
 
-* [.github/workflows/main.yml](.github/workflows/main.yml)
+## Java junit-quickcheck Examples
 
-## GitLab
+The Git project contains full API documentation and source code for examples
+using both traditional JUnit tests and QuickCheck style tests. The code example
+is a program to count words from STDIN like the
+[wc(1)](https://linux.die.net/man/1/wc) command.
 
-The rendered version is also available online at:
-
-* [GitLab](https://themarlogroup.gitlab.io/articles/quickcheck/)
-
-See pipeline configuration:
-
-* [.gitlab-ci.yml](.gitlab-ci.yml)
 
 ## Python Hypothesis Examples
 
@@ -55,6 +54,7 @@ Out[3]: [22, -108, 6137, -15222, -6307496272059922727, -125, -4, -30, 20459]
 ```
 
 The `example` method should only be used interactively.
+
 
 ### Initialise Virtual Environment and Packages
 
@@ -132,8 +132,8 @@ _____________________________ test_shuffle_is_noop _____________________________
         """
         Show intermediate steps in test using `note`.
 
-src/test_example.py:39: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/test_example.py:39:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 a_list = [0, 1], _random = RandomWithSeed(1)
 

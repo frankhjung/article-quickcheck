@@ -3,9 +3,9 @@
  */
 
 html {
-	width: 21cm;
-	height: 29.7cm;
-	margin: auto;
+  width: 21cm;
+  height: 29.7cm;
+  margin: auto;
   font-size: 100%;
   overflow-y: scroll;
   -webkit-text-size-adjust: 100%;
@@ -13,8 +13,8 @@ html {
 }
 
 body {
-	width: 21cm;
-	height: 29.7cm;
+  width: 21cm;
+  height: 29.7cm;
   margin: auto;
   color: #444;
   font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
@@ -264,19 +264,12 @@ table td {
   text-align: left;
 }
 
-@media only screen and (min-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  body {
-    font-size: 16px;
-  }
-}
-
 @media print {
+
+  @page {
+    size: 21cm 29.7cm;
+  }
+
   * {
     background: transparent !important;
     color: black !important;
@@ -293,28 +286,34 @@ table td {
     text-decoration: underline;
   }
 
-  hr {
-    height: 1px;
-    border: 0;
-    border-bottom: 1px solid black;
-  }
-
   a[href]:after {
     content: " (" attr(href) ")";
-  }
-
-  abbr[title]:after {
-    content: " (" attr(title) ")";
   }
 
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
-  pre, blockquote {
-    border: 1px solid #999;
-    padding-right: 1em;
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  code, pre {
+    font-family: monospace, monospace;
+    font-size: 0.90em;
     page-break-inside: avoid;
+  }
+
+  .sourceLine {
+    font-family: monospace, monospace;
+    font-size: 0.60em;
+    page-break-inside: avoid;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
   }
 
   tr, img {
@@ -325,31 +324,26 @@ table td {
     max-width: 100% !important;
   }
 
-	@page {
-		size: 21cm 29.7cm;
-		width: 21cm;
-		height: 29.7cm;
-		margin: 0cm;
-	}
-
-	/*
-	 
-  @page :left {
-    margin: 15mm 20mm 15mm 10mm;
-  }
-
-  @page :right {
-    margin: 15mm 10mm 15mm 20mm;
-  }
-
-	*/
-
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
   h2, h3 {
+    page-break-inside: avoid;
     page-break-after: avoid;
+  }
+
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
   }
 }
