@@ -30,10 +30,11 @@ Based Testing".
 You may be asking is: *Why would you use random values in testing? Doesn't that
 defeat the whole purpose of unit testing, where known values are tested to known
 responses?* Well, no. Often it is hard to think of suitable positive and
-negative test cases that exercise your code. What if many tests can be
-automatically run? What if these tests cover many different input values? And
-what if instances where tests fail are automatically recorded so they can be
-replayed?
+negative test cases that exercise your code. In addition: what if many randomly
+selected tests can be automatically run? And what if these tests cover many
+different input values? And what if instances where tests fail are automatically
+recorded so they can be reported and replayed later? These are just some of the
+benefits to this approach to testing.
 
 Property based testing seeks to verify a large range of applicable input values
 with your program code. It does this by generating a random sample of valid
@@ -47,8 +48,8 @@ Given "ABC" then expect "ABC"
 Given "123" then expect "123"
 ```
 
-But, in property based tests we are looking at the behaviour of any field that
-matches the input type. In pseudo code this looks like:
+In comparison, property based tests we are looking at the behaviour of any field
+that matches the input type. In pseudo code this looks like:
 
 ```text
 For any lowercase alphanumeric string then expect the same string but in uppercase.
@@ -58,7 +59,7 @@ For any non-alphabetic string then expect the same string, unchanged.
 
 The "for any" is where the randomness comes in.
 
-The article is organised as follows: First we will [review](#history) where
+This article is organised as follows: First we will [review](#history) where
 these ideas came from, then do a short [introduction to property based
 testing](#introducing-property-based-testing). This will introduce
 [Generators](#generators). Next, we will briefly discuss
@@ -69,24 +70,24 @@ with some final observations.
 ## History
 
 These concepts aren't new. Tools like [Lorem Ipsum](https://www.lipsum.com/)
-have been around since the 1960's to model text.
+have been around since the 1960`s to model text.
 
 Kent Beck provided a unit testing framework for
-[Smalltalk](https://en.wikipedia.org/wiki/Smalltalk) in 1989. Initially, tests
-had to be hand crafted. This introduced a number of key concepts that we now
-take for granted. It provided an organisation and recipes for unit tests. For
-each test case, the test data was created then thrown away at the end. Tests
-cases were aggregated into a test suite. The test suite is part of a framework
-that also produced a report, which is an example of what is known as [literate
-programming](https://en.wikipedia.org/wiki/Literate_programming). 
+[Smalltalk](https://en.wikipedia.org/wiki/Smalltalk) in 1989. Those tests had to
+be hand crafted. This introduced a number of key concepts that we now take for
+granted. It provided an organisation and recipes for unit tests. For each test
+case, the test data was created then thrown away at the end. Tests cases were
+aggregated into a test suite. The test suite is part of a framework that also
+produced a report, which is an example of what is known as [literate
+programming](https://en.wikipedia.org/wiki/Literate_programming).
 
 In 1994, Richard Hamlet wrote about Random Testing. Not the "random" as in the
 slang definition, meaning haphazard. Instead what Hamlet was suggesting is that
 computers could efficiently test a "vast number" of random test points. A second
-benefit he identified was that random testing provided "statistical prediction
-of significance in the observed results". This last point is somewhat technical,
-but in essence describes the ability to quantify the significance of a test that
-does *not* fail.
+benefit he identified was that random testing provided a "statistical prediction
+of significance in the observed results". This last point is somewhat technical.
+In essence it describes the ability to quantify the significance of a test that
+does *not* fail. In other words: is this just testing trivial cases?
 
 A few years later, in 1999, the influential paper by
 [Claessen](http://www.cse.chalmers.se/~koen/) and
@@ -95,9 +96,9 @@ A few years later, in 1999, the influential paper by
 Programs](https://www.researchgate.net/publication/2449938_QuickCheck_A_Lightweight_Tool_for_Random_Testing_of_Haskell_Programs),
 provided a whole new way to run tests using randomised values. Their paper was
 written for the functional programming language,
-[Haskell](https://www.haskell.org/), but it quickly inspired a suite of property
-based testing tools for many other languages. A useful list of current
-implementations appears on the
+[Haskell](https://www.haskell.org/). It proved influential and quickly inspired
+a suite of property based testing tools for many other languages. A useful list
+of current implementations appears on the
 [QuickCheck](https://en.wikipedia.org/wiki/QuickCheck) Wikipedia page.
 
 So, that is a bit of background. We will now look at the features of Property
@@ -117,20 +118,22 @@ that you have a test for a control flow path. So the quality of a test is
 dependent upon the quality of the inputs. Property based testing provides
 tools to test using randomly generated values selected over the range of input.
 This changes the focus of our tests. We concentrate on the properties of
-functions under test. What the inputs are and what the outputs are expected to
-be. With systematic testing (unit tests) we are selecting only a few inputs.
-Assumptions made on these selections could lead to failures. Testing the
-properties of an input over a large range of values can help to find bugs
-otherwise ignored in specific unit tests. We have experienced this first hand.
-It is a true "aha" moment when the tests uncover a use case whose input we
-hadn't thought of!
+functions under test. That is it focuses on what the inputs are and what the
+outputs are expected to be. With systematic testing (unit tests) we are
+selecting only a few inputs. Assumptions made on these selections could lead to
+failures. Testing the properties of an input over a large range of values can
+help to find bugs otherwise ignored in specific unit tests. We have experienced
+this first hand. It is a true "aha" moment when the tests uncover a use case
+whose input we hadn't thought of.
 
-With Unit Testing we provide fixed inputs (e.g. 0,1,2,…) and get a fixed
-result (e.g. 1,2,4,…).
+In summary:
 
-With Property Based Testing we provide a declaration of inputs (e.g. All
-`int`s) and declaration of conditions that must be held (e.g. Result is an
-`int`).
+* With Unit Testing we provide fixed inputs (e.g. 0,1,2,…) and get a fixed
+  result (e.g. 1,2,4,…).
+
+* With Property Based Testing we provide a declaration of inputs (e.g. All
+  non-negative `int`s) and declaration of conditions that must be held (e.g.
+  Result is an `int`).
 
 At its core, Property Based Testing is the production of randomised input test
 values. These test values are produced using *generators*.
@@ -144,13 +147,13 @@ Booleans, numeric types (e.g. floats, ranges of integers), characters and
 strings. Both [QuickCheck](http://hackage.haskell.org/package/QuickCheck) and
 [JUnit-QuickCheck](https://pholser.github.io/junit-quickcheck/) have many
 generators. And once you have a primitive generator, you can then compose these
-into more elaborate generators and structures, likes lists and maps, or you can
-build your own.
+into more elaborate generators and structures like lists and maps, or other
+bespoke structures.
 
 Apart from custom values, you may also want a custom distribution. Random
 testing is most effective when the values being tested closely match the
 distribution of the actual data. As the provided generators know nothing of your
-data, they typically will use a uniform distribution. If however, something else
+data so will typically use a uniform distribution. If however, something else
 is required then you will need to provide your own generator. Luckily, these are
 not difficult to write. The test tools we have used
 ([Haskell:QuickCheck](http://hackage.haskell.org/package/QuickCheck),
@@ -173,10 +176,10 @@ minimal example you are more likely to understand the reasons for the failure.
 
 ## Test Reproduction
 
-Random testing is useful, but once a failure has been identified, then we
-would like to repeat these failed tests to ensure they have been fixed. Tools
-such as Python's Hypothesis record all failed tests so on future runs those
-tests are automatically included in any re-runs.
+Random testing is useful, but once a failure has been identified, then we would
+like to repeat these failed tests to ensure they have been fixed. Tools such as
+Python's Hypothesis record all failed tests. On future runs those specific
+failed tests are automatically included in any re-runs.
 
 Other tools such as Java's
 [JUnit-QuickCheck](https://github.com/pholser/junit-quickcheck) allow the
@@ -188,10 +191,11 @@ the tests.
 ## Code Examples
 
 So, what does this look like? Marlo uses Java for development of integration
-solutions. 
+solutions. So the first examples shown here will use the above Java
+JUnit-QuickCheck package.
 
-This generator will create a alphanumeric word with a length of between 1 and 12
-characters.
+The following generator will create a alphanumeric word with a length of between
+1 and 12 characters.
 
 ```java
 /** Alphanumeric characters: "0-9A-Za-z". */
@@ -212,6 +216,7 @@ public String generate(final SourceOfRandomness randomness, final GenerationStat
   return randomString.toString();
 }
 ```
+
 [(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/AlphaNumericGenerator.java)
 
 To use this generator in a unit test:
@@ -229,6 +234,7 @@ public void testAlphanumericWord(final @From(AlphaNumericGenerator.class) String
   assertEquals(1, WordCountUtils.count(Stream.of(word)));
 }
 ```
+
 [(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/WordCountTests.java)
 
 Here we are using our custom generator, and have increased the trials to 1000
@@ -275,8 +281,8 @@ def test_alphanumeric(a_string):
     a_length = len(a_string)
     assert a_length >= 1 and a_length <= 12
 ```
-[(source)](src/test_example.py)
 
+[(source)](src/test_example.py)
 
 While the above are only trivial examples, it does demonstrate how this style of
 testing is a valuable alternative to systematic tests. A larger number of test
