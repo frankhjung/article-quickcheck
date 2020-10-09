@@ -17,15 +17,15 @@ date: '13 February 2020'
 # Using Randomness to Test Code
 
 In [part 1](https://marlo.com.au/some-thoughts-on-random-number-generators/) of
-this series, we explored pseudo-random values. That is values that are
+this series, we explored pseudo-random values. These are values that are
 statistically random, but are derived from a known starting point and is
-typically repeated over and over. In this article we will explore how random
-values can be used in testing. You may already be familiar with randomness in
-test invocation. For instance [JUnit5](https://junit.org/) provides an
-annotation to [randomise the order of test
+typically repeated over and over. In this article we explore how random values
+can be used in testing. You may already be familiar with randomness in test
+invocation. For instance [JUnit5](https://junit.org/) provides an annotation to
+[randomise the order of test
 execution](https://junit.org/junit5/docs/current/user-guide/#writing-tests-test-execution-order).
 Here, however, we are looking at a style of testing that uses randomly generated
-input values that tests _properties_ of your code. This is known as "Property
+input values that test _properties_ of your code. This is known as "Property
 Based Testing".
 
 You may be asking: *Why would you use random values in testing? Doesn't that
@@ -37,11 +37,11 @@ different input values? And what if instances where tests fail are automatically
 recorded so they can be reported and replayed later? These are just some of the
 benefits of this approach to testing.
 
-Property based testing verifies a large range of relevant inputs to your program
-code. It does this by generating a random sample of valid input values. Perhaps
-an example may help. Given a utility method to convert a string field into
-uppercase text, a unit test would use some expected values. In pseudo-code
-this may look like:
+Property-based testing verifies your program code using a large range of
+relevant inputs. It does this by generating a random sample of valid input
+values. Perhaps an example may help. Given a utility method to convert a string
+field into uppercase text, a unit test would use some expected values. In
+pseudo-code this may look like:
 
 ```text
 Given "abc123" then expect "ABC123"
@@ -83,13 +83,12 @@ programming](https://en.wikipedia.org/wiki/Literate_programming).
 
 In 1994, [Richard Hamlet wrote about Random
 Testing](https://pdfs.semanticscholar.org/b02a/67acd634cf04a1c7ca3fa58975c3d6ff1c4b.pdf)
-. Not the "random" as in the slang definition, meaning haphazard. Instead what
-Hamlet was suggesting is that computers could efficiently test a "vast number"
-of random test points. A second benefit he identified was that random testing
-provided a "statistical prediction of significance in the observed results".
-This last point is somewhat technical. In essence it describes the ability to
-quantify the significance of a test that does *not* fail. In other words: is
-this just testing trivial cases?
+. Hamlet posited that computers could efficiently test a "vast number" of random
+test points. Another benefit he identified was that random testing provided a
+"statistical prediction of significance in the observed results". This last
+point is somewhat technical. In essence it describes the ability to quantify the
+significance of a test that does *not* fail. In other words: is this just
+testing trivial cases?
 
 A few years later, in 1999, the influential paper by
 [Claessen](http://www.cse.chalmers.se/~koen/) and
@@ -110,18 +109,18 @@ The core principle of property-based testing is that for a function or method,
 any valid input should yield a valid response. Likewise, any input outside this
 range should return an appropriate failure. Compare this to how systematic tests
 are normally written: Given a *specific* input, check the program's return
-value. Therein lies the problem: you need to be sure you have chosen
-correct and *sufficient* input values to test your code. The tools we use to
-check test coverage do not check the *adequacy* of your tests — just that you
-have a test for a control flow path. So the quality of a test is dependent upon
-the quality of the inputs. Property-based testing provides tools to test using
-randomly generated values selected over the range of input. This changes the
-focus of our tests. We concentrate on the properties of functions under test.
-i.e. What the inputs are and what the outputs are expected to be. Testing the
-properties of an input over a large range of values can help to find bugs
-otherwise ignored in specific unit tests. We have experienced this first hand.
-It is a true "aha" moment when the tests uncover a use-case with input we
-hadn't thought of.
+value. Therein lies the problem: you need to be sure you have chosen correct and
+*sufficient* input values to test your code. The tools we use to check test
+coverage do not check the *adequacy* of your tests — just that you have a test
+for a control flow path. So the quality of a test is dependent upon the quality
+of the inputs. Property-based testing provides tools to test using randomly
+generated values selected over the range of input. This changes the focus of our
+tests. We concentrate on the properties of functions under test. i.e. What the
+inputs are and what the outputs are expected to be. Testing the properties of a
+function or method over a large range of values can help find bugs otherwise
+ignored in specific unit tests. We have experienced this first hand. It is a
+true "aha" moment when these tests uncover a use-case with input we hadn't
+thought of.
 
 In summary:
 
@@ -139,7 +138,7 @@ test values. These test values are produced using *generators*.
 ## Generators
 
 Random values are produced using *generators*. These are specific functions that
-produce a random value. Some common generators are used to manufacture Booleans,
+produce a random value. Some common generators are used to manufacture booleans,
 numeric types (e.g. floats, ranges of integers), characters and strings. Both
 [QuickCheck](http://hackage.haskell.org/package/QuickCheck) and
 [JUnit-QuickCheck](https://pholser.github.io/junit-quickcheck/) provide many
@@ -167,9 +166,9 @@ would be nice to find a smaller example. This is known as _shrinkage_.
 On failure, QuickCheck reduces the selection to the minimum set. So, from
 a large set of test values, QuickCheck finds the minimal case that fails
 the test. In practice, what this does is concentrate tests to the extremes of
-an input value. However, this behaviour can be modified by the *Generator*.
+an input value. However, this behaviour can be modified by the *generator*.
 
-Shrinkage is an important feature to property based testing. Having an example
+Shrinkage is an important feature of property based testing. Having an example
 of failure is good. Having a minimal example of failure is better. With a
 minimal example you are more likely to understand the reasons for the failure.
 
@@ -234,7 +233,9 @@ public final class AlphaNumericGenerator extends Generator<String> {
 }
 ```
 
+<small>
 [(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/AlphaNumericGenerator.java)
+</small>
 
 To use this generator in a unit test:
 
@@ -252,14 +253,18 @@ public void testAlphanumericWord(final @From(AlphaNumericGenerator.class) String
 }
 ```
 
+<small>
 [(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/WordCountTests.java)
+</small>
 
 Here we are using our custom generator, and have increased the trials to 1000
 from the default of 100. The expected property of our word count utility is that
 given this input string, its output would indicate that it counted one word.
 
-Once we have a custom generator, we can compose more elaborate tests. For
-example, create a random "sentence" of alphanumeric "words":
+The following code uses this generator to build a list of strings that are
+delimited by a space. The code to be tested contains two word count methods
+accepting different input types. Using our custom generator we can compose test
+data for both input types. Then test to see if the word count methods agree:
 
 ```java
 /**
@@ -275,10 +280,13 @@ public void testAlphanumericSentence(
       WordCountUtils.count(new Scanner(sentence)), WordCountUtils.count(Stream.of(sentence)));
 }
 ```
-[(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/WordCountTests.java)
 
-At Marlo we also use Ansible for automation. Ansible is Python based. An
-excellent QuickCheck library for Python is
+<small>
+[(source)](https://github.com/frankhjung/java-quickcheck/blob/master/src/test/java/com/marlo/quickcheck/WordCountTests.java)
+</small>
+
+At Marlo we also use Ansible for automation, with some custom modules written in
+Python. An excellent QuickCheck library for Python is
 [Hypothesis](https://hypothesis.readthedocs.io/en/latest/index.html). An
 equivalent generator to the Java example above is the
 [text](https://hypothesis.readthedocs.io/en/data.html?highlight=text#hypothesis.strategies.text)
@@ -298,7 +306,9 @@ def test_alphanumeric(a_string):
     assert a_length >= 1 and a_length <= 12
 ```
 
-[(source)](src/test_example.py)
+<small>
+[(source)](https://github.com/frankhjung/article-quickcheck/blob/master/src/test_example.py)
+</small>
 
 While the above are trivial examples, they do demonstrate how this style of
 testing is a valuable complement to systematic tests. They enable a larger
@@ -323,6 +333,8 @@ Property-based tests are easy to write and can help identify bugs that
 traditional testing approaches might miss. So, why not use randomness to your
 advantage?
 
+Get in touch with Marlo today if you'd like to learn more about how we can help
+modernise your testing regime.
 
 ## Links
 
