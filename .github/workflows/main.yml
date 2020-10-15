@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-      - 'feature/**'
-    paths:
-      - quickcheck.md
 
 jobs:
 
@@ -35,4 +32,3 @@ jobs:
           build_dir: public
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
-

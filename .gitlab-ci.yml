@@ -9,6 +9,5 @@ pages:
   only:
     refs:
       - master
-      - /^feature\/*/
     changes:
       - quickcheck.md
