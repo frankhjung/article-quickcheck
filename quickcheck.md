@@ -190,8 +190,8 @@ same test inputs.
 ## Code Examples
 
 So, what does this look like in real code? Marlo uses Java for development of
-integration solutions, so the first examples are based on the Java
-JUnit-QuickCheck package.
+digital solutions, so the first examples are based on the Java JUnit-QuickCheck
+package.
 
 The following generator will create a alphanumeric "word" with length of between
 1 and 12 characters.
