@@ -12,7 +12,7 @@ date: '15 October 2020'
 
 ---
 
-![Photo by Markus Frieauff on Unsplash](images/banner.png)
+![Photo by Artem Sapegin on Unsplash](images/banner.png)
 
 # Using Randomness to Test Code
 
