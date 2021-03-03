@@ -7,12 +7,12 @@ header-includes:
   - \usepackage{graphicx}
   - \pagestyle{fancy}
   - \fancyhead[L]{\includegraphics[height=7.5mm]{images/themarlogroup.png}}
-  - \fancyfoot[L]{© Marlo 2020}
+  - \fancyfoot[L]{© Marlo 2021}
 date: '15 October 2020'
 
 ---
 
-![Photo by Artem Sapegin on Unsplash](images/banner.png)
+![Photo by Frank H Jung](images/banner.png)
 
 # Using Randomness to Test Code
 
