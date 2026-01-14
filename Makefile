@@ -4,19 +4,19 @@ PYTHON := python3
 PANDOC := pandoc
 RM := rm
 
-default: quickcheck.html
+default: quickcheck.html quickcheck.pdf
 
 .SUFFIXES:
 .SUFFIXES: .md .html .pdf
 
 .md.html:
 	@mkdir -p public
-	@$(PANDOC) --css article.css --to html4 --output public/$@ --self-contained --standalone --section-divs $<
+	@$(PANDOC) --css article.css --to html4 --output public/$@ --embed-resources --standalone --section-divs $<
 	@mv public/$@ public/index.html
 
 .md.pdf:
 	@mkdir -p public
-	@$(PANDOC) --css article.css --to latex --output public/$@ --self-contained --standalone --section-divs $<
+	@$(PANDOC) --css article.css --to latex --output public/$@ --embed-resources --standalone --section-divs $<
 
 .PHONY: check
 check:

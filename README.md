@@ -1,13 +1,12 @@
-# Thoughts on Random Number Generators
+# Thoughts on Random Number Generators - QuickCheck
 
 This is part 2 in the series on Random numbers. The series contains:
 
-1.
-   [Random Number Generators in bash scripts](https://gitlab.com/theMarloGroup/articles/random)
-2.
-   [Random Number Generators to test code](https://gitlab.com/theMarloGroup/articles/quickcheck)
-3.
-   [Random Number Generators in simulation](https://gitlab.com/theMarloGroup/articles/simulation)
+- [Random Number Generators in bash scripts](https://frankhjung.github.io/article-random-bash)
+- [Random Number Generators to test code](https://frankhjung.github.io/article-random-quickcheck/)
+- [Random Number Generators in simulation](https://frankhjung.github.io/article-random-simulation)
+
+See also <https://frankhjung.blogspot.com/>.
 
 ## Render to HTML
 
@@ -21,24 +20,7 @@ make quickcheck.pdf
 This will generate documents into the `public` directory, which is used to
 publish rendered pages.
 
-## Rendered Articles
-
-Rendered versions of this article are available online at:
-
-*
-  [QuickCheck Article (GitHub)](https://frankhjung.github.io/article-quickcheck/)
-  * includes Python code
-*
-  [QuickCheck Java Example (GitHub)](https://github.com/frankhjung/java-quickcheck)
-  * using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
-*
-  [QuickCheck Article (GitLab)](https://themarlogroup.gitlab.io/articles/quickcheck/)
-  * includes Python code
-*
-  [QuickCheck Java Example (GitLab)](https://themarlogroup.gitlab.io/examples/quickcheck/)
-  * using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
-
-## Java junit-quickcheck Examples
+## Java JUnit-QuickCheck Examples
 
 The Git project contains full API documentation and source code for examples
 using both traditional JUnit tests and QuickCheck style tests. The code example

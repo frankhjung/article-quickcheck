@@ -14,15 +14,10 @@ jobs:
 
     steps:
       - name: shallow checkout
-        uses: actions/checkout@v1.0.0
+        uses: actions/checkout@v4
         with:
           ref: refs/heads/main
           fetch-depth: 1
-
-      - name: render document
-        uses: docker://frankhjung/pandoc:latest
-        with:
-          entrypoint: /usr/bin/make
 
       - name: publish to pages
         uses: crazy-max/ghaction-github-pages@v4

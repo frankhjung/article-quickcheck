@@ -1,28 +1,26 @@
 ---
-title: 'Using Randomness to Test Code'
-author: '[frank.jung@marlo.com.au](mailto:frank.jung@marlo.com.au)'
+title: 'Thoughts on Random Number Generators - QuickCheck'
+author: 'frankhjung@linux.com'
 geometry: margin=25mm
 header-includes:
   - \usepackage{fancyhdr}
   - \usepackage{graphicx}
   - \pagestyle{fancy}
-  - \fancyhead[L]{\includegraphics[height=7.5mm]{images/themarlogroup.png}}
-  - \fancyfoot[L]{© Marlo 2021}
-date: '15 October 2020'
+  - \fancyhead[L]{\includegraphics[height=7.5mm]{images/franklyspeaking.png}}
+  - \fancyfoot[L]{© Frank H Jung 2021-2026}
+date: '15 January 2026'
 
 ---
 
 ![Photo by Frank H Jung](images/banner.png)
 
-# Using Randomness to Test Code
-
-In [part 1](https://marlo.com.au/some-thoughts-on-random-number-generators/) of
-this series, we explored pseudo-random values. These are values that are
-statistically random, but are derived from a known starting point and is
-typically repeated over and over. In this article we explore how random values
-can be used in testing. You may already be familiar with randomness in test
-invocation. For instance [JUnit5](https://junit.org/) provides an annotation to
-[randomise the order of test
+In [part 1](https://github.com/frankhjung/article-random-bash) of this series,
+we explored pseudo-random values. These are values that are statistically
+random, but are derived from a known starting point and is typically repeated
+over and over. In this article we explore how random values can be used in
+testing. You may already be familiar with randomness in test invocation. For
+instance [JUnit5](https://junit.org/) provides an annotation to [randomise the
+order of test
 execution](https://junit.org/junit5/docs/current/user-guide/#writing-tests-test-execution-order).
 Here, however, we are looking at a style of testing that uses randomly generated
 input values that test _properties_ of your code. This is known as "Property
@@ -66,7 +64,6 @@ testing](#introducing-property-based-testing). It will introduce the concepts of
 [Generators](#generators) and [Shrinkage](#shrinkage) and discuss approaches to
 reproducing tests results.
 
-
 ## History
 
 These concepts aren't new. Tools like [Lorem Ipsum](https://www.lipsum.com/)
@@ -75,10 +72,10 @@ have been around since the 1960s to model text.
 Kent Beck developed a unit testing framework for
 [Smalltalk](https://en.wikipedia.org/wiki/Smalltalk) in 1989. Those tests had to
 be hand crafted. This introduced a number of key concepts that we now take for
-granted. It organised and provided recipes for unit tests. For each test
-case, the test data was created then thrown away at the end. Test cases were
-aggregated into a test suite. The test suite formed part of a framework that also
-produced a report — an example of what is known as [literate
+granted. It organised and provided recipes for unit tests. For each test case,
+the test data was created then thrown away at the end. Test cases were
+aggregated into a test suite. The test suite formed part of a framework that
+also produced a report — an example of what is known as [literate
 programming](https://en.wikipedia.org/wiki/Literate_programming).
 
 In 1994, [Richard Hamlet wrote about Random
@@ -101,7 +98,6 @@ written for the functional programming language,
 testing tools for many other languages. A list of current implementations
 appears on the [QuickCheck](https://en.wikipedia.org/wiki/QuickCheck) Wikipedia
 page.
-
 
 ## Introducing Property Based Testing
 
@@ -134,7 +130,6 @@ In summary:
 At its core, property-based testing requires the production of randomised input
 test values. These test values are produced using *generators*.
 
-
 ## Generators
 
 Random values are produced using *generators*. These are specific functions that
@@ -157,21 +152,19 @@ difficult task. The test tools we have used
 [Python:Hypothesis](https://hypothesis.works/)) have rich libraries of
 generators that can be easily extended.
 
-
 ## Shrinkage
 
 Generators can produce large test values. When a failure has been detected it
 would be nice to find a smaller example. This is known as _shrinkage_.
 
-On failure, QuickCheck reduces the selection to the minimum set. So, from
-a large set of test values, QuickCheck finds the minimal case that fails
-the test. In practice, what this does is concentrate tests to the extremes of
-an input value. However, this behaviour can be modified by the *generator*.
+On failure, QuickCheck reduces the selection to the minimum set. So, from a
+large set of test values, QuickCheck finds the minimal case that fails the test.
+In practice, what this does is concentrate tests to the extremes of an input
+value. However, this behaviour can be modified by the *generator*.
 
 Shrinkage is an important feature of property based testing. Having an example
 of failure is good. Having a minimal example of failure is better. With a
 minimal example you are more likely to understand the reasons for the failure.
-
 
 ## Test Reproduction
 
@@ -186,10 +179,9 @@ to be repeated by specifying a random seed. When a test fails, the random seed
 used to generate that test is reported, and can then be used to reproduce the
 same test inputs.
 
-
 ## Code Examples
 
-So, what does this look like in real code? Marlo uses Java for development of
+So, what does this look like in real code? I have used Java for development of
 digital solutions, so the first examples are based on the Java JUnit-QuickCheck
 package.
 
@@ -307,7 +299,7 @@ def test_alphanumeric(a_string):
 ```
 
 <small>
-[(source)](https://github.com/frankhjung/article-quickcheck/blob/master/src/test_example.py)
+[(source)](https://github.com/frankhjung/article-quickcheck/blob/main/src/test_example.py)
 </small>
 
 While the above are trivial examples, they do demonstrate how this style of
@@ -315,7 +307,6 @@ testing is a valuable complement to systematic tests. They enable a larger
 number of test cases to run against your code. The style of tests are different,
 in that they focus on the generalised behaviour of code rather than specific use
 cases. This makes them powerful addition to a test suite.
-
 
 ## Summary
 
@@ -333,25 +324,27 @@ Property-based tests are easy to write and can help identify bugs that
 traditional testing approaches might miss. So, why not use randomness to your
 advantage?
 
-Get in touch with Marlo today if you'd like to learn more about how we can help
-modernise your testing regime.
-
 ## Links
 
 There are many resources online resources available if you want to learn more:
 
 * [Beyond Unit Tests](https://www.hillelwayne.com/talks/beyond-unit-tests/)
 * [JUnit5](https://junit.org/junit5/)
-* [JUnit-QuickCheck](https://pholser.github.io/junit-quickcheck/) a Java QuickCheck style tool (GitHub)
+* [JUnit-QuickCheck](https://pholser.github.io/junit-quickcheck/) a Java
+  QuickCheck style tool (GitHub)
 * [Lorem Ipsum](https://www.lipsum.com/)
 * [Property Testing](https://en.wikipedia.org/wiki/Property_testing)
 * [Python Hypothesis](https://hypothesis.readthedocs.io/en/latest/index.html)
-* [QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs by Koen Claessen & John Hughes (1999)](https://www.researchgate.net/publication/2449938_QuickCheck_A_Lightweight_Tool_for_Random_Testing_of_Haskell_Programs) (PDF)
+*
+  [QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs by Koen Claessen & John Hughes (1999)](https://www.researchgate.net/publication/2449938_QuickCheck_A_Lightweight_Tool_for_Random_Testing_of_Haskell_Programs)
+  (PDF)
 * [QuickCheck: As a test set generator](https://wiki.haskell.org/QuickCheck_as_a_test_set_generator)
 * [QuickCheck: A tutorial on generators](https://www.stackbuilders.com/news/a-quickcheck-tutorial-generators)
 * [QuickCheck: Automatic testing of Haskell programs](http://hackage.haskell.org/package/QuickCheck)
 * [QuickCheck (Wikipedia)](https://en.wikipedia.org/wiki/QuickCheck)
-* [Random Testing by Richard Hamlet (1994)](https://pdfs.semanticscholar.org/b02a/67acd634cf04a1c7ca3fa58975c3d6ff1c4b.pdf) (PDF)
+*
+  [Random Testing by Richard Hamlet (1994)](https://pdfs.semanticscholar.org/b02a/67acd634cf04a1c7ca3fa58975c3d6ff1c4b.pdf)
+  (PDF)
 * [Simple Smalltalk Testing: With Patterns by Kent Beck (1989)](https://web.archive.org/web/20150315073817/http://www.xprogramming.com/testfram.htm)
-* [Source for this article](https://github.com/frankhjung/article-quickcheck) (GitHub)
-
+* [Source for this article](https://github.com/frankhjung/article-random-quickcheck)
+  (GitHub)

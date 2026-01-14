@@ -5,13 +5,11 @@ cache/
 doc/
 *.docx
 figure/
-*.html
 .hypothesis/
 .idea
 .idea/
 *.iml
 *.lyx
-public/
 *.pyc
 __pycache__/
 *.pyo
