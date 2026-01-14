@@ -1,0 +1,45 @@
+[project]
+name = "quickcheck-examples"
+version = "0.1.0"
+description = "Property-based testing examples with Hypothesis"
+requires-python = ">=3.9"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = ["hypothesis>=6.0"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "pytest-html>=4.0",
+    "pytest-metadata>=3.0",
+    "ruff>=0.8",
+]
+
+[tool.ruff]
+line-length = 79
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "C90", # mccabe complexity
+    "B",   # flake8-bugbear
+    "ANN", # flake8-annotations
+]
+ignore = [
+    "ANN001", # Missing type annotation for function argument
+    "ANN002", # Missing type annotation for *args
+    "ANN003", # Missing type annotation for **kwargs
+]
+
+[tool.ruff.lint.per-file-ignores]
+"test_*.py" = ["ANN201"] # Tests don't need return type hints
+
+[tool.pytest.ini_options]
+testpaths = ["src"]
+python_files = "test_*.py"

@@ -2,10 +2,12 @@
 
 This is part 2 in the series on Random numbers. The series contains:
 
-1. [Random Number Generators in bash scripts](https://gitlab.com/theMarloGroup/articles/random)
-2. [Random Number Generators to test code](https://gitlab.com/theMarloGroup/articles/quickcheck)
-3. [Random Number Generators in simulation](https://gitlab.com/theMarloGroup/articles/simulation)
-
+1.
+   [Random Number Generators in bash scripts](https://gitlab.com/theMarloGroup/articles/random)
+2.
+   [Random Number Generators to test code](https://gitlab.com/theMarloGroup/articles/quickcheck)
+3.
+   [Random Number Generators in simulation](https://gitlab.com/theMarloGroup/articles/simulation)
 
 ## Render to HTML
 
@@ -19,15 +21,22 @@ make quickcheck.pdf
 This will generate documents into the `public` directory, which is used to
 publish rendered pages.
 
-
 ## Rendered Articles
 
 Rendered versions of this article are available online at:
 
-* [QuickCheck Article (GitHub)](https://frankhjung.github.io/article-quickcheck/) - includes Python code
-* [QuickCheck Java Example (GitHub)](https://github.com/frankhjung/java-quickcheck) - using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
-* [QuickCheck Article (GitLab)](https://themarlogroup.gitlab.io/articles/quickcheck/) - includes Python code
-* [QuickCheck Java Example (GitLab)](https://themarlogroup.gitlab.io/examples/quickcheck/) - using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
+*
+  [QuickCheck Article (GitHub)](https://frankhjung.github.io/article-quickcheck/)
+  * includes Python code
+*
+  [QuickCheck Java Example (GitHub)](https://github.com/frankhjung/java-quickcheck)
+  * using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
+*
+  [QuickCheck Article (GitLab)](https://themarlogroup.gitlab.io/articles/quickcheck/)
+  * includes Python code
+*
+  [QuickCheck Java Example (GitLab)](https://themarlogroup.gitlab.io/examples/quickcheck/)
+  * using [junit-quickcheck](https://github.com/pholser/junit-quickcheck)
 
 ## Java junit-quickcheck Examples
 
@@ -35,7 +44,6 @@ The Git project contains full API documentation and source code for examples
 using both traditional JUnit tests and QuickCheck style tests. The code example
 is a program to count words from STDIN like the
 [wc(1)](https://linux.die.net/man/1/wc) command.
-
 
 ## Python Hypothesis Examples
 
@@ -55,46 +63,35 @@ Out[3]: [22, -108, 6137, -15222, -6307496272059922727, -125, -4, -30, 20459]
 
 The `example` method should only be used interactively.
 
+### Setup Environment with UV
 
-### Initialise Virtual Environment and Packages
-
-Activate virtual environment (venv) with:
-
-```bash
-pip3 install virtualenv ; python3 -m virtualenv venv
-```
-
-Start virtual environment (venv) with:
+Initialize the project environment with all dependencies:
 
 ```bash
-source venv/bin/activate
+uv sync --extra dev
 ```
 
-Install dependent packages:
-
-```bash
-pip3 install -r requirements.txt
-```
-
-Deactivate with:
-
-```bash
-deactivate
-```
+This installs all project dependencies including development tools (pytest,
+ruff, hypothesis, etc.) as defined in `pyproject.toml`.
 
 ### Validate Code
 
-Format and line code:
+Format and lint code:
 
 ```bash
-yapf --style google --parallel -i src/*.py
-pylint src/*.py
+make check
+```
+
+Or to just check without modifying:
+
+```bash
+make lint
 ```
 
 ### Run Test Code
 
 ```bash
-pytest -v src/test_example.py
+make test
 ```
 
 To get runtime statistics:
@@ -124,66 +121,5 @@ src/test_example.py::test_sorting_list_of_integers PASSED                [ 50%]
 src/test_example.py::test_shuffle_is_noop FAILED                         [ 75%]
 src/test_example.py::test_alphanumeric PASSED                            [100%]
 
-=================================== FAILURES ===================================
-_____________________________ test_shuffle_is_noop _____________________________
-
-    @given(lists(integers()), randoms())
->   def test_shuffle_is_noop(a_list, _random):
-        """
-        Show intermediate steps in test using `note`.
-
-src/test_example.py:39:
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-a_list = [0, 1], _random = RandomWithSeed(1)
-
-    @given(lists(integers()), randoms())
-    def test_shuffle_is_noop(a_list, _random):
-        """
-        Show intermediate steps in test using `note`.
-        """
-        b_list = list(a_list)
-        _random.shuffle(b_list)
-        note("Shuffle: %r" % (b_list))
->       assert a_list == b_list
-E       assert [0, 1] == [1, 0]
-E         At index 0 diff: 0 != 1
-E         Full diff:
-E         - [0, 1]
-E         + [1, 0]
-
-src/test_example.py:46: AssertionError
----------------------------------- Hypothesis ----------------------------------
-Falsifying example: test_shuffle_is_noop(a_list=[0, 1], _random=RandomWithSeed(1))
-Shuffle: [1, 0]
-============================ Hypothesis Statistics =============================
-src/test_example.py::test_email:
-
-  - 100 passing examples, 0 failing examples, 0 invalid examples
-  - Typical runtimes: 1-26 ms
-  - Fraction of time spent in data generation: ~ 97%
-  - Stopped because settings.max_examples=100
-
-src/test_example.py::test_sorting_list_of_integers:
-
-  - 100 passing examples, 0 failing examples, 0 invalid examples
-  - Typical runtimes: 0-1 ms
-  - Fraction of time spent in data generation: ~ 70%
-  - Stopped because settings.max_examples=100
-
-src/test_example.py::test_shuffle_is_noop:
-
-  - 20 passing examples, 11 failing examples, 3 invalid examples
-  - Typical runtimes: 0-1 ms
-  - Fraction of time spent in data generation: ~ 21%
-  - Stopped because nothing left to do
-
-src/test_example.py::test_alphanumeric:
-
-  - 100 passing examples, 0 failing examples, 0 invalid examples
-  - Typical runtimes: 1-4 ms
-  - Fraction of time spent in data generation: ~ 89%
-  - Stopped because settings.max_examples=100
-
-====================== 1 failed, 3 passed in 2.11 seconds ======================
+============================== 1 xfailed, 3 passed ===============================
 ```
