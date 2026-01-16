@@ -5,6 +5,7 @@ cache/
 doc/
 *.docx
 figure/
+*.html
 .hypothesis/
 .idea
 .idea/
@@ -18,6 +19,7 @@ __pycache__/
 *.rds
 references
 .Rhistory
+*.Rproj
 .Rproj.user
 *.tex
 venv/

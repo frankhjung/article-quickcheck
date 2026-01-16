@@ -1,10 +1,11 @@
 #!/usr/bin/make
 
+PROJECT:= quickcheck
 PYTHON := python3
 PANDOC := pandoc
 RM := rm
 
-default: quickcheck.html quickcheck.pdf
+default: $(PROJECT).html $(PROJECT).pdf
 
 .SUFFIXES:
 .SUFFIXES: .md .html .pdf
