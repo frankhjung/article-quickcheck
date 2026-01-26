@@ -1,28 +1,36 @@
-name: render and publish article
+---
+
+name: publish article
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  pages: write
+  id-token: write
+
 jobs:
   build:
-    name: render markdown to html
+    name: publish article to pages
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+
       - name: shallow checkout
         uses: actions/checkout@v4
         with:
-          ref: refs/heads/main
           fetch-depth: 1
 
-      - name: publish to pages
-        uses: crazy-max/ghaction-github-pages@v4
-        if: success()
+      - name: upload pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          build_dir: public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: public
+
+      - name: deploy to pages
+        id: deployment
+        uses: actions/deploy-pages@v4
