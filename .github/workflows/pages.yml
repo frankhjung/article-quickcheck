@@ -26,6 +26,12 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: build with pandoc
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
+            ghcr.io/frankhjung/pandoc:latest \
+            sh -c 'DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-latex-recommended || true && make'
+
       - name: upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
