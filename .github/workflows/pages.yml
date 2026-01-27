@@ -30,15 +30,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
             ghcr.io/frankhjung/pandoc:latest \
-            sh -c '
-              # Install LaTeX packages for PDF generation
-              DEBIAN_FRONTEND=noninteractive apt-get update -qq &&
-              DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-latex-recommended 2>&1 | grep -v "^debconf:" || true &&
-              # Verify pdflatex is available
-              which pdflatex > /dev/null 2>&1 || { echo "Error: pdflatex not found"; exit 1; } &&
-              # Build HTML and PDF
-              make
-            '
+            make
 
       - name: upload pages artifact
         uses: actions/upload-pages-artifact@v3
