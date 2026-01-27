@@ -30,7 +30,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
             ghcr.io/frankhjung/pandoc:latest \
-            make
+            sh -c 'make'
 
       - name: upload pages artifact
         uses: actions/upload-pages-artifact@v3
